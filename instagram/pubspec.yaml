@@ -23,6 +23,8 @@ dependencies:
   geolocator: ^7.4.1
   image_picker: ^0.8.3+3
   firebase_messaging: ^10.0.6
+  video_player:
+  font_awesome_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -50,3 +52,13 @@ flutter_native_splash:
 
 flutter:
   uses-material-design: true
+  assets:
+    - Images/
+  
+  fonts:
+    - family: Brand-Bold
+      fonts:
+        - asset: Fonts/bolt-semibold.ttf
+    - family: Brand-Regular
+      fonts:
+        - asset: Fonts/bolt-regular.ttf

@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/Screens/AuthHomeScreen.dart';
+import 'package:instagram/Screens/LoginScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,18 +17,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: 'Brand-Regular',
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: Center(
-          child: TextButton(
-            onPressed: () {
-              FirebaseAuth.instance.createUserWithEmailAndPassword(email: 'agarwalsarthak456@gmaail.com', password: 'Sarthak@1233');
-            },
-            child: Text('Test'),
-          ),
-        ),
-      ),
+      initialRoute: LoginScreen.id,
+      routes: {
+        LoginScreen.id: (context) => LoginScreen(),
+        EmailLoginScreen.id: (context) => EmailLoginScreen(),
+      },
     );
   }
 }
