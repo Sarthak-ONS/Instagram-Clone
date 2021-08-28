@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1037778760600",
+    "project_id": "instagram-70575",
+    "storage_bucket": "instagram-70575.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037778760600:android:5a838b43a31e470ca5f1ed",
+        "android_client_info": {
+          "package_name": "com.sarthak.instagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037778760600-is9iabuhjmjsh7v7q10ebbnkti8s7k2e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sarthak.instagram",
+            "certificate_hash": "8bb2b42da76b7c51418ef8a5277bff79b9de2c3a"
+          }
+        },
+        {
+          "client_id": "1037778760600-kfn6djjm6osimjtidqvutmovfp2iu08o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYr-YYyLUi8SxWQB8XbrQHbnzL92rOPVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037778760600-kfn6djjm6osimjtidqvutmovfp2iu08o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,45 @@
+name: instagram
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  firebase_core: ^1.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+  flutter_native_splash:
+
+# run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: Images/Splash.png
+  android: true
+  ios: true
+
+  # color: "#ffffff"
+  # image: assets/splash_full.png
+  # color_dark: "#1a1a1a"
+  # image_dark: assets/splash_full.png
+  # android: true
+  # ios: true
+  # android_gravity: fill
+  # ios_content_mode: scaleAspectFill
+
+flutter:
+  uses-material-design: true
