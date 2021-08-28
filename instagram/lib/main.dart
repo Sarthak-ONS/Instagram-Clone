@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -17,7 +18,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(),
+      home: Scaffold(
+        body: Center(
+          child: TextButton(
+            onPressed: () {
+              FirebaseAuth.instance.createUserWithEmailAndPassword(email: 'agarwalsarthak456@gmaail.com', password: 'Sarthak@1233');
+            },
+            child: Text('Test'),
+          ),
+        ),
+      ),
     );
   }
 }
