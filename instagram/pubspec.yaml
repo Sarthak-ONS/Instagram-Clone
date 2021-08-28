@@ -62,3 +62,6 @@ flutter:
     - family: Brand-Regular
       fonts:
         - asset: Fonts/bolt-regular.ttf
+    - family: Billabong
+      fonts:
+        - asset: Fonts/Billabong.ttf    
