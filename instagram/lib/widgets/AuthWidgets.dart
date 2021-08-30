@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class UserIDEditContainer extends StatelessWidget {
   final TextEditingController userId;
   final String inputtext;
-  const UserIDEditContainer({Key? key, required this.userId , required this.inputtext}) : super(key: key);
+  const UserIDEditContainer(
+      {Key? key, required this.userId, required this.inputtext})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,10 @@ class UserIDEditContainer extends StatelessWidget {
 
 class PasswordeditContainer extends StatelessWidget {
   final TextEditingController password;
-  const PasswordeditContainer({Key? key, required this.password})
+  final String title;
+
+  const PasswordeditContainer(
+      {Key? key, required this.password, required this.title})
       : super(key: key);
 
   @override
@@ -35,7 +40,7 @@ class PasswordeditContainer extends StatelessWidget {
         controller: password,
         obscureText: true,
         decoration: new InputDecoration(
-            hintText: 'Password',
+            hintText: title,
             border: new OutlineInputBorder(
               borderSide: new BorderSide(color: Colors.black),
             ),
@@ -56,7 +61,9 @@ class LoginContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onpressed(),
+      onTap: () {
+        onpressed();
+      },
       child: new Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.only(top: 10.0),

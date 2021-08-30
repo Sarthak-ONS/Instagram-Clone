@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/Providers/SocialAuthProviders.dart';
 import 'package:instagram/Screens/LoginScreen.dart';
 import 'package:instagram/widgets/BackgroundImageidget.dart';
 import 'package:instagram/widgets/LoginButton.dart';
 import 'package:instagram/widgets/LoginIconButtonWidget.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static final String id = "Login";
@@ -66,7 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       GestureDetector(
                         onTap: () {
                           //Login user with Google
-                          print("Logging user with google");
+                          Provider.of<SocialAuthProviders>(context,
+                                  listen: false)
+                              .googleLogin(context);
                         },
                         child: LoginIconButtonWidget(
                           path: 'Images/Google.png',
@@ -81,6 +85,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           //login user with facebook
                           print("Logging user with facebook");
+                          Provider.of<SocialAuthProviders>(context,
+                                  listen: false)
+                              .signInWithFacebook(context);
                         },
                         child: LoginIconButtonWidget(
                           path: 'Images/Facebook.png',
