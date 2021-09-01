@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:instagram/BrandColors.dart';
+import 'package:instagram/Screens/AuthHomeScreen.dart';
 import 'package:instagram/Services/AuthService.dart';
 import 'package:instagram/widgets/AuthWidgets.dart';
 import 'package:instagram/widgets/LoadingIndiactor.dart';
 
 class RegistrationScreen extends StatefulWidget {
+  static const String id = "RegistrationScreen";
   RegistrationScreen({Key? key}) : super(key: key);
 
   @override
@@ -61,7 +64,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           children: [
             Form(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 25 , vertical: MediaQuery.of(context).size.height *0.1),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 25,
+                    vertical: MediaQuery.of(context).size.height * 0.1),
                 child: Center(
                   child: Column(
                     children: [
@@ -96,7 +101,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       PasswordeditContainer(
                         password: _confpassword,
-                         title: 'Confirm Password',
+                        title: 'Confirm Password',
                       ),
                       SizedBox(
                         height: 10,
@@ -169,6 +174,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 _signup();
                               },
                             ),
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'OR',
+                          style: TextStyle(
+                              color: BrandColors.colorTextDark, fontSize: 18),
+                        ),
+                      ),
+                      SocialWidget(
+                        color: Colors.black,
+                      ),
                       new Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

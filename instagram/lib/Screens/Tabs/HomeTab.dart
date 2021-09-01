@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_icons/line_icon.dart';
@@ -10,20 +11,41 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Icon(
+            FontAwesomeIcons.plus,
+            color: Colors.black,
+          ),
+          GestureDetector(
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+            },
+            child: Icon(
+              FontAwesomeIcons.facebookMessenger,
+              textDirection: TextDirection.rtl,
+              color: Colors.black,
+            ),
+          ),
+        ],
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
           'Instagram',
           style: TextStyle(
-              fontFamily: 'Billabong', fontSize: 40, color: Colors.black),
+            fontFamily: 'Billabong',
+            fontSize: 40,
+            color: Colors.black,
+          ),
         ),
       ),
+      floatingActionButton:
+          FloatingActionButton.extended(onPressed: () {}, label: Text('dvdfv')),
       body: SingleChildScrollView(
         child: Column(
           children: [
             StoriesWidget(),
             PostWidget(),
-             PostWidget(),
+            PostWidget(),
           ],
         ),
       ),

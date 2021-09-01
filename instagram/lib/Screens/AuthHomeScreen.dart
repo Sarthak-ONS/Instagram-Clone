@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instagram/Providers/SocialAuthProviders.dart';
 import 'package:instagram/Screens/LoginScreen.dart';
+import 'package:instagram/Screens/RegistrationScree.dart';
 import 'package:instagram/widgets/BackgroundImageidget.dart';
 import 'package:instagram/widgets/LoginButton.dart';
 import 'package:instagram/widgets/LoginIconButtonWidget.dart';
@@ -34,6 +35,31 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(),
           ),
           Positioned(
+            top: MediaQuery.of(context).padding.top,
+            right: 0,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
+                ),
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Create Account',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontFamily: 'Brand-Regular',
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
             bottom: 0,
             left: 0,
             right: 0,
@@ -62,50 +88,89 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          //Login user with Google
-                          Provider.of<SocialAuthProviders>(context,
-                                  listen: false)
-                              .googleLogin(context);
-                        },
-                        child: LoginIconButtonWidget(
-                          path: 'Images/Google.png',
-                          h: 35,
-                          w: 35,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          //login user with facebook
-                          print("Logging user with facebook");
-                          Provider.of<SocialAuthProviders>(context,
-                                  listen: false)
-                              .signInWithFacebook(context);
-                        },
-                        child: LoginIconButtonWidget(
-                          path: 'Images/Facebook.png',
-                          h: 40,
-                          w: 40,
-                        ),
-                      ),
-                    ],
-                  ),
+                  SocialWidget(color:Colors.white),
                   SizedBox(
                     height: 15,
                   )
                 ],
               ),
             ),
+          ),
+          Center(
+            child: Text(
+              'Instagram',
+              style: TextStyle(
+                  color: Colors.white, fontFamily: 'Billabong', fontSize: 55),
+            ),
           )
         ],
       ),
+    );
+  }
+}
+
+class SocialWidget extends StatelessWidget {
+  final Color color;
+  const SocialWidget({Key? key, required this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: () {
+            //Login user with Google
+            Provider.of<SocialAuthProviders>(context, listen: false)
+                .googleLogin(context);
+          },
+          child: Row(
+            children: [
+              LoginIconButtonWidget(
+                path: 'Images/Google.png',
+                h: 35,
+                w: 35,
+              ),
+              Text(
+                'Google',
+                style: TextStyle(
+                  color: color,
+                  fontSize: 18,
+                  fontFamily: 'Brand-Bold',
+                ),
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        GestureDetector(
+          onTap: () {
+            //login user with facebook
+            print("Logging user with facebook");
+            Provider.of<SocialAuthProviders>(context, listen: false)
+                .signInWithFacebook(context);
+          },
+          child: Row(
+            children: [
+              LoginIconButtonWidget(
+                path: 'Images/Facebook.png',
+                h: 40,
+                w: 40,
+              ),
+              Text(
+                'Facebook',
+                style: TextStyle(
+                  color: color,
+                  fontSize: 18,
+                  fontFamily: 'Brand-Bold',
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

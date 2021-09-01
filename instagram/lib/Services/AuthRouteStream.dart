@@ -9,7 +9,7 @@ class AuthStateStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -18,14 +18,17 @@ class AuthStateStream extends StatelessWidget {
           );
         }
         if (snapshot.hasData) {
-          //    print(Provider.of<UserProfile>(context , listen: false).userID);
+          Navigator.pop(context);
           print("Automatic Singing");
           return HomePageScreen();
         }
         if (snapshot.hasError) {
           return LoginScreen();
-        } else
+        }
+        if (snapshot.data == null) {
           return LoginScreen();
+        }
+        return Text('Something went wrong');
       },
     );
   }

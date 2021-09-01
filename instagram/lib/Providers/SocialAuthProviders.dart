@@ -3,13 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:instagram/Providers/UserProvider.dart';
+import 'package:instagram/Screens/SocialAuthCredentialCheckerScreen.dart';
 import 'package:instagram/widgets/LoadingIndiactor.dart';
+import 'package:provider/provider.dart';
 
 class SocialAuthProviders extends ChangeNotifier {
   final googleSignin = GoogleSignIn();
   final facebookauthInstance = FacebookAuth.instance;
 
   GoogleSignInAccount? _user;
+
+  GoogleSignIn? googleSignIn;
 
   GoogleSignInAccount get user => _user!;
 
@@ -31,9 +36,24 @@ class SocialAuthProviders extends ChangeNotifier {
 
       final OAuthCredential facebookAuthCredential =
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      Navigator.pop(context);
-        
-      return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      print(facebookAuthCredential);
+
+      await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential)
+          .then(
+        (value) {
+          print("Logged in with Facebook");
+          Provider.of<UserProfile>(context, listen: false).changeProfile();
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => SocailAuthCheckerScreen(),
+              ));
+        },
+      );
+
+      return;
     } catch (e) {
       Navigator.pop(context);
     }
@@ -56,12 +76,24 @@ class SocialAuthProviders extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
 
-      await FirebaseAuth.instance
-          .signInWithCredential(credential)
-          .then((value) {
-        Navigator.pop(context);
-        return;
+      await FirebaseAuth.instance.signInWithCredential(credential).then(
+        (value) async {
+          print("Logged in with Google");
+          Navigator.pop(context);
+          Provider.of<UserProfile>(context, listen: false).changeProfile();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => SocailAuthCheckerScreen(),
+            ),
+          );
+          return;
+        },
+      ).catchError((e) {
+        print("////////////////////");
+        print(e.toString());
       });
+
       notifyListeners();
     } catch (e) {
       Navigator.pop(context);

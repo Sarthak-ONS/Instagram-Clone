@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/Screens/SocialAuthCredentialCheckerScreen.dart';
 import 'package:instagram/widgets/LoadingIndiactor.dart';
 
 class AuthService {
@@ -78,8 +79,12 @@ class AuthService {
           print(userCredential.user!.uid.toString());
         },
       ).then((value) {
-        // Navigator.pushNamedAndRemoveUntil(
-        //     context, HomePageScreen.id, (route) => false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SocailAuthCheckerScreen(),
+          ),
+        );
       }).catchError((e) {
         handleAuthException(e, context);
       });
@@ -96,17 +101,34 @@ class AuthService {
         email: email,
         password: password,
       )
-          .then((value) {
-        // Navigator.pushNamedAndRemoveUntil(
-        //     context, HomePageScreen.id, (route) => false);
-      }).catchError((e) {
-        print("registration error");
-        print(e.toString());
-        handleAuthException(e, context);
-      });
-      FirebaseAuth.instance.currentUser!.sendEmailVerification().then(
-            (value) {},
+          .then(
+        (value) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => SocailAuthCheckerScreen(),
+            ),
           );
+        },
+      ).catchError(
+        (e) {
+          print("registration error");
+          print(e.toString());
+          handleAuthException(e, context);
+        },
+      );
+      FirebaseAuth.instance.currentUser!.sendEmailVerification().then(
+        (value) {
+          Navigator.pop(context);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => SocailAuthCheckerScreen(),
+            ),
+          );
+        },
+      );
 
       ///Notify user about the account Verification within 24 hours!
       print("Email is sent to user");

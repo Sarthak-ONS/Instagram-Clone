@@ -13,11 +13,12 @@ class UserIDEditContainer extends StatelessWidget {
       child: new TextField(
         controller: userId,
         decoration: new InputDecoration(
-            hintText: inputtext,
-            border: new OutlineInputBorder(
-              borderSide: new BorderSide(color: Colors.black),
-            ),
-            isDense: true),
+          hintText: inputtext,
+          border: new OutlineInputBorder(
+            borderSide: new BorderSide(color: Colors.black),
+          ),
+          isDense: true,
+        ),
         // style: _textStyleBlack,
       ),
     );
@@ -64,16 +65,19 @@ class LoginContainer extends StatelessWidget {
       onTap: () {
         onpressed();
       },
-      child: new Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.only(top: 10.0),
-        width: 500.0,
-        height: 40.0,
-        child: new Text(
-          title,
-          style: new TextStyle(color: Colors.white),
+      child: InkWell(
+        splashColor: Colors.white,
+        child: new Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.only(top: 10.0),
+          width: 500.0,
+          height: 40.0,
+          child: new Text(
+            title,
+            style: new TextStyle(color: Colors.white),
+          ),
+          color: Colors.blue,
         ),
-        color: Colors.blue,
       ),
     );
   }
