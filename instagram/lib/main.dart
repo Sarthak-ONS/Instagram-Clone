@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,12 @@ import 'package:instagram/Screens/RegistrationScree.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/UserProvider.dart';
+import 'Screens/CreateContent/NewVideoPosts.dart';
 import 'Services/AuthRouteStream.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   await Firebase.initializeApp();
   Stream? user = FirebaseAuth.instance.authStateChanges();
   user.listen((event) {

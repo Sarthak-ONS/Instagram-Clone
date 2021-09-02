@@ -165,7 +165,7 @@ class _ProfileTabState extends State<ProfileTab>
                     crossAxisSpacing: 1,
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
-                        print(index+1);
+                        print(index + 1);
                       },
                       child: Container(
                         child: Image.network(

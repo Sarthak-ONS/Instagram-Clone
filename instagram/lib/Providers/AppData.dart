@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:geocoding/geocoding.dart';
@@ -27,15 +28,21 @@ class AppData extends ChangeNotifier {
   }
 
   Future getCurrentLocation() async {
-    Position positon = await Geolocator.getCurrentPosition();
-    print(positon.latitude);
-    print(positon.longitude);
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(positon.latitude, positon.longitude);
-    placemarks.forEach((element) {
-      print(element.name);
-    });
-    notifyListeners();
+    try {
+      Position positon = await Geolocator.getCurrentPosition();
+      print(positon.latitude);
+      print(positon.longitude);
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(positon.latitude, positon.longitude);
+      placemarks.forEach(
+        (element) {
+          print(element.name);
+        },
+      );
+      notifyListeners();
+    } on PlatformException catch (e) {
+      print(e.code);
+    }
   }
 
   void changeUserSelectedCurrentLocation(
