@@ -179,7 +179,7 @@ class _NewVideoPostsState extends State<NewVideoPosts> {
                           icon: isRecording
                               ? Icon(
                                   FontAwesomeIcons.video,
-                                  color: Colors.white,
+                                  color:isRecording?Colors.red: Colors.white,
                                   size: 40,
                                 )
                               : Icon(
