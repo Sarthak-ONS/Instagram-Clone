@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -37,6 +36,7 @@ class _NewVideoPostsState extends State<NewVideoPosts> {
       }
       setState(() {});
     });
+    
   }
 
   @override
@@ -59,27 +59,6 @@ class _NewVideoPostsState extends State<NewVideoPosts> {
       ),
     );
     print(file.path);
-  }
-
-  void endVideoRecording() async {
-    print("Long press end");
-    try {
-      final temp = await controller!.stopVideoRecording();
-      setState(() {
-        isRecording = false;
-      });
-      File tempu = File(temp.path);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => VideoViewScreen(
-            file: tempu,
-          ),
-        ),
-      );
-    } on CameraException catch (e) {
-      print(e.code);
-    }
   }
 
   bool isRecording = false;
@@ -171,15 +150,29 @@ class _NewVideoPostsState extends State<NewVideoPosts> {
                             setState(() {
                               isRecording = true;
                             });
-                            Timer.periodic(Duration(seconds: 10), (v) {
-                              endVideoRecording();
-                            });
                           } on CameraException catch (e) {
                             print(e.code);
                           }
                         },
                         onLongPressEnd: (e) async {
-                          endVideoRecording();
+                          print("Long press end");
+                          try {
+                            final temp = await controller!.stopVideoRecording();
+                            setState(() {
+                              isRecording = false;
+                            });
+                            File tempu = File(temp.path);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => VideoViewScreen(
+                                  file: tempu,
+                                ),
+                              ),
+                            );
+                          } on CameraException catch (e) {
+                            print(e.code);
+                          }
                         },
                         child: IconButton(
                           onPressed: () {},

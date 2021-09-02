@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instagram/BrandColors.dart';
 import 'package:instagram/widgets/AuthWidgets.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:video_player/video_player.dart';
@@ -29,9 +27,18 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
+    _controller!.addListener(() {
+      print("///////////////");
+      print(_controller!.value.isPlaying);
+    });
   }
 
   bool isPlaying = false;
+  @override
+  void dispose() {
+    super.dispose();
+    _controller!.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +119,15 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                     color: Colors.black38,
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  child: Icon(
-                    FontAwesomeIcons.play,
-                    color: Colors.white,
-                  ),
+                  child: _controller!.value.isPlaying
+                      ? Icon(
+                          FontAwesomeIcons.pause,
+                          color: Colors.white,
+                        )
+                      : Icon(
+                          FontAwesomeIcons.play,
+                          color: Colors.white,
+                        ),
                 ),
               ),
             ),
