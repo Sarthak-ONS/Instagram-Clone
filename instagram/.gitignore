@@ -47,3 +47,4 @@ app.*.map.json
 
 
 /lib/globalVariables.dart
+/lib/Services/AlgoliaService.dart

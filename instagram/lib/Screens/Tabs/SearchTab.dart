@@ -1,16 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:algolia/algolia.dart';
+import 'package:instagram/Services/AlgoliaService.dart';
 import 'package:instagram/widgets/SearchUserListTile.dart';
 import 'package:line_icons/line_icons.dart';
-
-
-class Application {
-  static final Algolia algolia = Algolia.init(
-    applicationId: '3J4OQZYIY3',
-    apiKey: 'ec04ee219adb5326f9f1c46e73ad8a76',
-  );
-}
 
 class SearchTab extends StatefulWidget {
   const SearchTab({Key? key}) : super(key: key);
