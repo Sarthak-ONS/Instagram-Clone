@@ -19,4 +19,6 @@ Services used are-
 6. Algolia Search Extension<br/>
 7. Agora Video Call(to be Added)<br/>
 
+State Management used - Provider
 
+I request you to use your API Keys and services<br/>
