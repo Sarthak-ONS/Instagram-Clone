@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:image_cropper/image_cropper.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +32,30 @@ class _NewPostsState extends State<NewPosts> {
       );
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() {
-        images!.add(imageTemp);
-      });
+      File? croppedFile = await ImageCropper.cropImage(
+        sourcePath: imageTemp.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.ratio4x3,
+        ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Instagram',
+            showCropGrid: true,
+            toolbarColor: Colors.black,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+      );
+      if (croppedFile != null) {
+        setState(() {
+          images!.add(croppedFile);
+        });
+      } else {
+        setState(() {
+          images!.add(imageTemp);
+        });
+      }
     } on PlatformException catch (e) {
       print(e.message);
     }
@@ -155,90 +176,119 @@ class _NewPostsState extends State<NewPosts> {
             ),
       body: Stack(
         children: [
-          Container(
-            child: PageView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: images!.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  //  color: Colors.,
-                  child: Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8.0),
-                        //  height: MediaQuery.of(context).size.height-100,
-                        width: double.maxFinite,
-                        child: Image(
-                          fit: BoxFit.fill,
-                          image: FileImage(
-                            images![index],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 15,
-                        left: 15,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            (index + 1).toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 15,
-                        left: 15,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            index == images!.length - 1
-                                ? 'Swipe Right'
-                                : 'Swipe left ',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 15,
-                        right: 15,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              images!.removeAt(index);
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(40.0),
-                            ),
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Delete',
+          images!.length == 0
+              ? Positioned(
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        chooseImage(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Tap to add Images',
                               style: TextStyle(
-                                color: Colors.white,
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontFamily: 'Brand-Bold'),
+                            ),
+                            Icon(
+                              LineIcons.plus,
+                              color: Colors.black,
+                              size: 25,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Container(
+                  child: PageView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: images!.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        //  color: Colors.,
+                        child: Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(8.0),
+                              //  height: MediaQuery.of(context).size.height-100,
+                              width: double.maxFinite,
+                              child: Image(
+                                fit: BoxFit.fill,
+                                image: FileImage(
+                                  images![index],
+                                ),
                               ),
                             ),
-                          ),
+                            Positioned(
+                              top: 15,
+                              left: 15,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  (index + 1).toString(),
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 15,
+                              left: 15,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  index == images!.length - 1
+                                      ? 'Swipe Right'
+                                      : 'Swipe left ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 15,
+                              right: 15,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    images!.removeAt(index);
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(40.0),
+                                  ),
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          ),
+                ),
         ],
       ),
     );

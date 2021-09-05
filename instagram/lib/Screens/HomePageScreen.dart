@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram/BrandColors.dart';
 import 'package:instagram/Providers/AppData.dart';
+import 'package:instagram/Providers/PostProvider.dart';
 import 'package:instagram/Providers/UserProvider.dart';
 import 'package:instagram/Screens/Tabs/HomeTab.dart';
 import 'package:instagram/Screens/Tabs/LikeTab.dart';
-import 'package:instagram/Screens/Tabs/NewPostTab.dart';
 import 'package:instagram/Screens/Tabs/SearchTab.dart';
 import 'package:instagram/Screens/Tabs/UserProfile.dart';
+import 'package:instagram/Services/DynamicLinksAPi.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+
+import 'Tabs/VideoTab.dart';
 
 class HomePageScreen extends StatefulWidget {
   static String id = "HomePageScreen";
@@ -26,10 +29,12 @@ class _HomePageScreenState extends State<HomePageScreen>
   @override
   void initState() {
     super.initState();
+    DynamicLinkAPI().initDynamicLinks(context);
     _tabController = TabController(length: 5, vsync: this);
     Provider.of<UserProfile>(context, listen: false).changeProfile();
-    Provider.of<AppData>(context , listen: false).getDeviceInfo();
-    Provider.of<AppData>(context , listen: false).getCurrentLocation();
+    Provider.of<AppData>(context, listen: false).getDeviceInfo();
+    Provider.of<AppData>(context, listen: false).getCurrentLocation();
+    Provider.of<PostProvider>(context, listen: false).getPosts();
   }
 
   @override
@@ -51,14 +56,14 @@ class _HomePageScreenState extends State<HomePageScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: TabBarView(
-        //  physics: NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: [
           HomeTab(),
+          VideoTab(),
           SearchTab(),
-          NewPostTab(),
           LikeTab(),
-          ProfileTab()
+          ProfileTab(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -78,13 +83,13 @@ class _HomePageScreenState extends State<HomePageScreen>
               label: ''),
           BottomNavigationBarItem(
               icon: Icon(
-                LineIcons.searchPlus,
+                LineIcons.video,
                 color: Colors.black,
               ),
               label: ''),
           BottomNavigationBarItem(
               icon: Icon(
-                LineIcons.plus,
+                LineIcons.searchPlus,
                 color: Colors.black,
               ),
               label: ''),

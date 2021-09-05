@@ -25,8 +25,9 @@ class UserProfile extends ChangeNotifier {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-    //print(snapshot.toString());
-    print(snapshot.get("Name"));
+    print(snapshot.get(
+      "following"
+    ));
     userdata.fullName = snapshot.get("Name");
     userdata.email = snapshot.get("email");
     userdata.bio = snapshot.get("bio");
@@ -36,6 +37,8 @@ class UserProfile extends ChangeNotifier {
     userdata.userName = snapshot.get("username");
     userdata.website = snapshot.get("website");
     userdata.postCount = snapshot.get('postCount');
+    userdata.followers = snapshot.get('followers');
+    userdata.folowings = snapshot.get('following');
     notifyListeners();
   }
 }

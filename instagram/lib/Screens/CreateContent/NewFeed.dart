@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram/BrandColors.dart';
 import 'package:instagram/Providers/AppData.dart';
+import 'package:instagram/Providers/PostProvider.dart';
 import 'package:instagram/Providers/UserProvider.dart';
 import 'package:instagram/Screens/CreateContent/SelectLocationScreen.dart';
+import 'package:instagram/Screens/HomePageScreen.dart';
 import 'package:instagram/Services/HelperMethod.dart';
 import 'package:instagram/widgets/AuthWidgets.dart';
 import 'package:instagram/widgets/LoadingIndiactor.dart';
@@ -155,8 +157,9 @@ class CreateNewFeed extends StatelessWidget {
               "${Provider.of<UserProfile>(context, listen: false).userdata.photoUrl}",
               "${Provider.of<AppData>(context, listen: false).userSelectedCurrentLocation.toString()}")
           .then((value) {
-        Navigator.pop(context);
+      Navigator.pushNamedAndRemoveUntil(context, HomePageScreen.id, (route) => false);
       });
+      Provider.of<PostProvider>(context ,listen: false).getPosts();
     } catch (e) {
       print(e);
     }

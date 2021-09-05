@@ -1,12 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram/BrandColors.dart';
 import 'package:instagram/Providers/UserProvider.dart';
+import 'package:instagram/Screens/AuthHomeScreen.dart';
+import 'package:instagram/Screens/EditProfileScreen.dart';
 import 'package:instagram/widgets/AuthWidgets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+import 'NewPostTab.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({Key? key}) : super(key: key);
@@ -48,18 +55,36 @@ class _ProfileTabState extends State<ProfileTab>
           ],
         ),
         actions: [
-          LineIcon(
-            LineIcons.plusSquare,
-            color: Colors.black,
-            size: 30,
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: NewPostTab(),
+                ),
+              );
+            },
+            icon: LineIcon(
+              LineIcons.plusSquare,
+              color: Colors.black,
+              size: 30,
+            ),
           ),
           SizedBox(
             width: 15,
           ),
-          LineIcon(
-            LineIcons.hamburger,
-            color: Colors.black,
-            size: 30,
+          IconButton(
+            onPressed: () async {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, LoginScreen.id, (route) => false);
+              await FirebaseAuth.instance.signOut();
+            },
+            icon: LineIcon(
+              FontAwesomeIcons.signOutAlt,
+              color: Colors.black,
+              size: 25,
+            ),
           ),
           SizedBox(
             width: 15,
@@ -74,11 +99,11 @@ class _ProfileTabState extends State<ProfileTab>
               Row(
                 children: [
                   Container(
-                    padding:
-                        EdgeInsets.only(left: 25.0, bottom: 15.0, right: 15.0),
+                    padding: EdgeInsets.only(
+                        left: 25.0, bottom: 15.0, right: 15.0, top: 15.0),
                     child: ClipOval(
                       child: CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.black,
                         radius: 45,
                         child: CachedNetworkImage(
                           imageUrl: d.userdata.photoUrl.toString(),
@@ -97,11 +122,11 @@ class _ProfileTabState extends State<ProfileTab>
                         title: 'Posts',
                       ),
                       buildStats(
-                        count: d.userdata.followersCount.toString(),
+                        count: d.userdata.followers!.length.toString(),
                         title: 'Followers',
                       ),
                       buildStats(
-                        count: d.userdata.followingCount.toString(),
+                        count: d.userdata.folowings!.length.toString(),
                         title: 'Following',
                       ),
                     ],
@@ -120,7 +145,7 @@ class _ProfileTabState extends State<ProfileTab>
                       d.userdata.fullName.toString(),
                       style: TextStyle(
                         color: BrandColors.colorTextDark,
-                        fontSize: 16,
+                        fontSize: 18,
                         //  fontFamily: 'Brand-Bold',
                       ),
                     ),
@@ -142,13 +167,20 @@ class _ProfileTabState extends State<ProfileTab>
                 height: 15.0,
               ),
               Container(
+                height: 45,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(40.0)),
                 padding: EdgeInsets.symmetric(
                   horizontal: 15.0,
                 ),
                 child: LoginContainer(
                   onpressed: () {
-                    print("Editing profiel");
-                    print(d.userdata.photoUrl.toString());
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => EditProfileScreen(),
+                      ),
+                    );
                   },
                   title: 'Edit Profile',
                 ),
@@ -169,7 +201,7 @@ class _ProfileTabState extends State<ProfileTab>
                       },
                       child: Container(
                         child: Image.network(
-                          "https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+                          "https://images.pexels.com/photos/590029/pexels-photo-590029.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -211,33 +243,3 @@ Widget buildStats({String? count, String? title}) {
     ),
   );
 }
-
-class TaggedPhotoWidget extends StatelessWidget {
-  const TaggedPhotoWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Text(
-          'Tagged',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 15,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// class YourPosts extends StatelessWidget {
-//   const YourPosts({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child:,
-//     );
-//   }
-// }

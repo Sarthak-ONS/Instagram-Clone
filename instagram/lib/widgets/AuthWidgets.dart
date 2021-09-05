@@ -68,6 +68,8 @@ class LoginContainer extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.white,
         child: new Container(
+          decoration: BoxDecoration(
+              color: Colors.blue, borderRadius: BorderRadius.circular(10.0)),
           alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 10.0),
           width: 500.0,
@@ -76,7 +78,6 @@ class LoginContainer extends StatelessWidget {
             title,
             style: new TextStyle(color: Colors.white),
           ),
-          color: Colors.blue,
         ),
       ),
     );

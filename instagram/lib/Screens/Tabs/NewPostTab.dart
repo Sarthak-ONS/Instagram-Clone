@@ -3,6 +3,7 @@ import 'package:instagram/Screens/CreateContent/GoLive.dart';
 import 'package:instagram/Screens/CreateContent/NewFeed.dart';
 import 'package:instagram/Screens/CreateContent/NewPosts.dart';
 import 'package:instagram/Screens/CreateContent/NewVideoPosts.dart';
+import 'package:line_icons/line_icons.dart';
 
 class NewPostTab extends StatefulWidget {
   const NewPostTab({Key? key}) : super(key: key);
@@ -38,6 +39,7 @@ class _NewPostTabState extends State<NewPostTab> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
         elevation: 0,
         title: Text(
           'Create Content',
@@ -47,6 +49,17 @@ class _NewPostTabState extends State<NewPostTab> {
             fontFamily: 'Brand-Bold',
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+            Navigator.pop(context);
+            },
+            icon: Icon(
+              LineIcons.arrowLeft,
+              color: Colors.black,
+            ),
+          )
+        ],
       ),
       body: ListView.builder(
         itemCount: 4,

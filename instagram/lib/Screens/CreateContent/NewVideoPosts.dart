@@ -1,11 +1,8 @@
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instagram/BrandColors.dart';
 import 'package:instagram/Screens/CreateContent/VideoViewScreen.dart';
-import 'package:line_icons/line_icons.dart';
 
 import 'NewVideoPostFinalizeScreen.dart';
 
@@ -36,7 +33,6 @@ class _NewVideoPostsState extends State<NewVideoPosts> {
       }
       setState(() {});
     });
-    
   }
 
   @override
@@ -61,126 +57,113 @@ class _NewVideoPostsState extends State<NewVideoPosts> {
     print(file.path);
   }
 
+  bool isFlashOn = false;
+
   bool isRecording = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        actions: [
-          Container(
-            color: Colors.white,
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                LineIcons.arrowLeft,
-                color: Colors.black,
-              ),
-            ),
-          )
-        ],
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Create a Video Feed',
-          style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Brand-Bold',
-          ),
-        ),
-      ),
-      body: Stack(
+      backgroundColor: Colors.black,
+      body: Column(
         children: [
-          FutureBuilder(
-            future: cameraValue,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Container(
-                    child: CameraPreview(
-                      controller!,
-                    ),
-                  ),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
-            },
+          SizedBox(
+            height: 35,
           ),
-          Positioned(
-            bottom: 0.0,
-            right: 0.0,
-            left: 0.0,
-            child: Container(
-              height: 100,
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                color: Colors.black,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          FontAwesomeIcons.solidLightbulb,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          if (isRecording) {
-                            return;
-                          }
-                          takePhoto();
-                        },
-                        onLongPress: () async {
-                          print("Long press");
-                          try {
-                            if (isRecording) return;
-                            await controller!.startVideoRecording();
-                            setState(() {
-                              isRecording = true;
-                            });
-                          } on CameraException catch (e) {
-                            print(e.code);
-                          }
-                        },
-                        onLongPressEnd: (e) async {
-                          print("Long press end");
-                          try {
-                            final temp = await controller!.stopVideoRecording();
-                            setState(() {
-                              isRecording = false;
-                            });
-                            File tempu = File(temp.path);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => VideoViewScreen(
-                                  file: tempu,
-                                ),
+          Container(
+            width: double.infinity,
+            child: CameraPreview(
+              controller!,
+            ),
+          ),
+          Container(
+            width: double.maxFinite,
+            decoration: BoxDecoration(
+              color: Colors.black,
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        if (isFlashOn) {
+                          controller!.setFlashMode(FlashMode.off);
+                          setState(() {
+                            isFlashOn = false;
+                          });
+                          return;
+                        }
+                        if (!isFlashOn) {
+                          controller!.setFlashMode(FlashMode.torch);
+                          setState(() {
+                            isFlashOn = true;
+                          });
+                        }
+                      },
+                      icon: isFlashOn
+                          ? Icon(
+                              FontAwesomeIcons.lightbulb,
+                              color: Colors.white,
+                            )
+                          : Icon(
+                              FontAwesomeIcons.solidLightbulb,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (isRecording) {
+                          return;
+                        }
+                        takePhoto();
+                      },
+                      onLongPress: () async {
+                        print("Long press");
+                        try {
+                          if (isRecording) return;
+                          await controller!.startVideoRecording();
+                          setState(() {
+                            isRecording = true;
+                          });
+                        } on CameraException catch (e) {
+                          print(e.code);
+                        }
+                      },
+                      onLongPressEnd: (e) async {
+                        print("Long press end");
+                        try {
+                          final temp = await controller!.stopVideoRecording();
+                          setState(() {
+                            isRecording = false;
+                          });
+                          File tempu = File(temp.path);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => VideoViewScreen(
+                                file: tempu,
                               ),
-                            );
-                          } on CameraException catch (e) {
-                            print(e.code);
-                          }
-                        },
+                            ),
+                          );
+                        } on CameraException catch (e) {
+                          print(e.code);
+                        }
+                      },
+                      child: Center(
                         child: IconButton(
                           onPressed: () {},
                           icon: isRecording
                               ? Icon(
                                   FontAwesomeIcons.video,
-                                  color:isRecording?Colors.red: Colors.white,
-                                  size: 40,
+                                  color:
+                                      isRecording ? Colors.red : Colors.white,
+                                  size: isRecording ? 45 : 40,
                                 )
                               : Icon(
                                   FontAwesomeIcons.circle,
@@ -189,30 +172,30 @@ class _NewVideoPostsState extends State<NewVideoPosts> {
                                 ),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          FontAwesomeIcons.cameraRetro,
-                          color: Colors.white,
-                          size: 40,
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Hold to record a Video',
-                      style: TextStyle(color: Colors.white),
                     ),
-                  )
-                ],
-              ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        FontAwesomeIcons.cameraRetro,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Hold to record a Video',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
             ),
-          ),
+          )
         ],
       ),
     );

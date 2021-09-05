@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/BrandColors.dart';
 import 'package:instagram/Providers/AppData.dart';
+import 'package:instagram/Providers/PostProvider.dart';
 import 'package:instagram/Providers/UserProvider.dart';
 import 'package:instagram/Services/HelperMethod.dart';
 import 'package:instagram/widgets/AuthWidgets.dart';
@@ -44,17 +45,22 @@ class _FinalizeNewPostScreenState extends State<FinalizeNewPostScreen> {
 
   Future createNewPosts(context) async {
     print("Inside Method Create new Posts");
-    await HelperMethods().createNewPost(
-      [_controller.text],
-      Provider.of<AppData>(context, listen: false).deviceModel.toString(),
-      Provider.of<AppData>(context, listen: false).getCurrentTime.toString(),
-      Provider.of<UserProfile>(context, listen: false)
-          .userdata
-          .userName
-          .toString(),
-      widget.downloadUrls,
-      Provider.of<AppData>(context, listen: false).deviceModel.toString(),
-    ).then((value) {
+    await HelperMethods()
+        .createNewPost(
+            _controller.text,
+            Provider.of<AppData>(context, listen: false).userSelectedCurrentLocation,
+            Provider.of<AppData>(context, listen: false)
+                .getCurrentTime
+                .toString(),
+            Provider.of<UserProfile>(context, listen: false)
+                .userdata
+                .userName
+                .toString(),
+            widget.downloadUrls,
+            Provider.of<AppData>(context, listen: false).deviceModel.toString(),
+            Provider.of<UserProfile>(context, listen: false).userdata.photoUrl)
+        .then((value) {
+      Provider.of<PostProvider>(context, listen: false).getPosts();
       Navigator.pop(context);
       Navigator.pop(context);
     }).catchError((e) {
@@ -152,7 +158,6 @@ class _FinalizeNewPostScreenState extends State<FinalizeNewPostScreen> {
               ),
               LoginContainer(
                 onpressed: () async {
-                  print(widget.file![1].path);
                   createNewPosts(context);
                 },
                 title: 'Create Post',

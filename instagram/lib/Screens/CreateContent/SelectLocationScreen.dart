@@ -6,6 +6,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../BrandColors.dart';
+import '../../globalVariables.dart';
 
 class SearchLocationPage extends StatefulWidget {
   const SearchLocationPage({Key? key});
@@ -24,7 +25,7 @@ class _SearchLocationPageState extends State<SearchLocationPage> {
   Future searchPlace(String name) async {
     if (name.length >= 1) {
       String url =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$name&key=AIzaSyBNqT5XHAjb75WyI8K8obInrYBHGuUekGg&sessiontoken=123254251&components=country:in";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$name&key=$APIKEY&sessiontoken=123254251&components=country:in";
       var response = await RequestHelper.getResponse(url);
       if (response == 'failed') {
         return;

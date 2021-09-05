@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Userdata {
   String? userName;
   String? fullName;
@@ -10,6 +8,9 @@ class Userdata {
   int? followersCount;
   int? followingCount;
   String? website;
+  List? followers;
+  List? folowings;
+  String? userID;
   Userdata(
       {this.userName,
       this.fullName,
@@ -19,9 +20,8 @@ class Userdata {
       this.followersCount,
       this.followingCount,
       this.postCount,
-      this.website});
-
-  Userdata.fromJson(QueryDocumentSnapshot<String> snapshot, index) {
-    snapshot.get('username');
-  }
+      this.website,
+      this.userID,
+      this.followers,
+      this.folowings});
 }

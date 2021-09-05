@@ -8,8 +8,10 @@ import 'package:instagram/Screens/AuthHomeScreen.dart';
 import 'package:instagram/Screens/HomePageScreen.dart';
 import 'package:instagram/Screens/LoginScreen.dart';
 import 'package:instagram/Screens/RegistrationScree.dart';
+import 'package:instagram/Screens/ShowSinglePostScreen.dart';
 import 'package:provider/provider.dart';
 
+import 'Providers/PostProvider.dart';
 import 'Providers/UserProvider.dart';
 import 'Screens/CreateContent/NewVideoPosts.dart';
 import 'Services/AuthRouteStream.dart';
@@ -48,6 +50,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AppData()),
         ChangeNotifierProvider(create: (context) => SocialAuthProviders()),
         ChangeNotifierProvider(create: (context) => UserProfile()),
+        ChangeNotifierProvider(create: (context) => PostProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -62,6 +65,7 @@ class MyApp extends StatelessWidget {
           HomePageScreen.id: (context) => HomePageScreen(),
           AuthStateStream.id: (context) => AuthStateStream(),
           RegistrationScreen.id: (context) => RegistrationScreen(),
+         
         },
       ),
     );
