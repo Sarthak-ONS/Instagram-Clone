@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:instagram/BrandColors.dart';
 import 'package:instagram/Providers/UserProvider.dart';
 import 'package:instagram/Screens/AuthHomeScreen.dart';
-import 'package:instagram/Screens/EditProfileScreen.dart';
 import 'package:instagram/widgets/AuthWidgets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
@@ -49,7 +47,7 @@ class _ProfileTabState extends State<ProfileTab>
               width: 10,
             ),
             Text(
-              Provider.of<UserProfile>(context).userdata.userName.toString(),
+              Provider.of<UserProfile>(context).userdata.userName!,
               style: TextStyle(color: Colors.black),
             ),
           ],
@@ -76,9 +74,43 @@ class _ProfileTabState extends State<ProfileTab>
           ),
           IconButton(
             onPressed: () async {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, LoginScreen.id, (route) => false);
-              await FirebaseAuth.instance.signOut();
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => AlertDialog(
+                  content: Text('Are you sure you want to logout? '),
+                  title: Text('Alert'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.blueAccent),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent[350],
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: TextButton(
+                        onPressed: () async {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, LoginScreen.id, (route) => false);
+                          await FirebaseAuth.instance.signOut();
+                        },
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(color: BrandColors.colorPrimary),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                useSafeArea: true,
+              );
             },
             icon: LineIcon(
               FontAwesomeIcons.signOutAlt,
@@ -105,11 +137,8 @@ class _ProfileTabState extends State<ProfileTab>
                       child: CircleAvatar(
                         backgroundColor: Colors.black,
                         radius: 45,
-                        child: CachedNetworkImage(
-                          imageUrl: d.userdata.photoUrl.toString(),
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) => Container(),
-                          errorWidget: (context, url, error) => Container(),
+                        child: Image(
+                          image: NetworkImage(d.userdata.photoUrl!),
                         ),
                       ),
                     ),
@@ -142,7 +171,7 @@ class _ProfileTabState extends State<ProfileTab>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      d.userdata.fullName.toString(),
+                      d.userdata.fullName!,
                       style: TextStyle(
                         color: BrandColors.colorTextDark,
                         fontSize: 18,
@@ -153,7 +182,7 @@ class _ProfileTabState extends State<ProfileTab>
                       height: 3.0,
                     ),
                     Text(
-                      d.userdata.bio.toString(),
+                      d.userdata.bio!,
                       style: TextStyle(
                         color: BrandColors.colorTextDark,
                         fontSize: 14,
@@ -175,12 +204,13 @@ class _ProfileTabState extends State<ProfileTab>
                 ),
                 child: LoginContainer(
                   onpressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => EditProfileScreen(),
-                      ),
-                    );
+                    print(d.userdata.photoUrl!);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (_) => EditProfileScreen(),
+                    //   ),
+                    // );
                   },
                   title: 'Edit Profile',
                 ),

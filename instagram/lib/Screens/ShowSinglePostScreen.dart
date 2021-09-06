@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/Providers/PostProvider.dart';
 import 'package:instagram/Screens/ShowNewFeedHomeTab.dart';
-import 'package:instagram/Screens/Tabs/HomeTab.dart';
+import 'package:instagram/widgets/ImagePostWidget.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SinglePostScreen extends StatefulWidget {

@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(AssetImage('Images/Loginimage.png'), context);
     return Scaffold(
       body: Stack(
         children: [

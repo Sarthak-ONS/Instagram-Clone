@@ -8,7 +8,6 @@ import 'package:instagram/Screens/AuthHomeScreen.dart';
 import 'package:instagram/Screens/HomePageScreen.dart';
 import 'package:instagram/Screens/LoginScreen.dart';
 import 'package:instagram/Screens/RegistrationScree.dart';
-import 'package:instagram/Screens/ShowSinglePostScreen.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/PostProvider.dart';
